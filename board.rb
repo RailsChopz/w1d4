@@ -1,4 +1,5 @@
 require_relative "tile"
+require 'byebug'
 
 class Board
   def self.empty_grid
@@ -23,13 +24,14 @@ class Board
 
   def [](pos)
     x, y = pos
-    grid[x][y]
+    @grid[x][y]
   end
 
   def []=(pos, value)
     x, y = pos
-    tile = grid[x][y]
-    tile.value = value
+    # debugger
+    @grid[x][y] = value
+    # tile.value = value
   end
 
   def columns
@@ -38,7 +40,7 @@ class Board
 
   def render
     puts "  #{(0..8).to_a.join(" ")}"
-    grid.each_with_index do |row, i|
+    columns.each_with_index do |row, i|
       puts "#{i} #{row.join(" ")}"
     end
   end
@@ -58,12 +60,13 @@ class Board
   end
 
   def solved_set?(tiles)
-    nums = tiles.map(&:value)
+    nums = tiles.map { |num| num }
     nums.sort == (1..9).to_a
   end
 
   def square(idx)
     tiles = []
+    debugger
     x = (idx / 3) * 3
     y = (idx % 3) * 3
 
@@ -80,6 +83,6 @@ class Board
     (0..8).to_a.map { |i| square(i) }
   end
 
-  private
+  # private
   attr_reader :grid
 end
